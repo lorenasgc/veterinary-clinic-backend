@@ -1,8 +1,19 @@
-### IntelliJ IDEA ###
+### IDE specific files ###
+# IntelliJ
 .idea/
 *.iml
+*.iws
+*.ipr
 
-### Maven ###
+# Eclipse
+.classpath
+.project
+.settings
+
+# VS Code
+.vscode/
+
+### Maven build directory and files ###
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -11,7 +22,10 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 
-### Archivos generados y logs ###
+### Generated files and logs ###
 *.log
 HELP.md
+
+### OS generated files ###
 .DS_Store
+Thumbs.db
