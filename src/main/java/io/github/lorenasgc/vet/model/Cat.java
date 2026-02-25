@@ -1,12 +1,16 @@
 package io.github.lorenasgc.vet.model;
 
 import jakarta.persistence.Entity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import jakarta.persistence.Table;
+import lombok.*;
 
 @Entity
-@Data
+@Table(name = "cats")
+@Getter
+@Setter
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class Cat extends Pet {
     private boolean isIndoor;
     private String breed;
