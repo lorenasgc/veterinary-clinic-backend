@@ -1,15 +1,17 @@
 package io.github.lorenasgc.vet.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "pets")
 @Inheritance(strategy = InheritanceType.JOINED)
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(exclude = {"owner", "species"})
 @NoArgsConstructor
 public abstract class Pet {
 
@@ -21,13 +23,16 @@ public abstract class Pet {
     private LocalDate birthDate;
     private boolean gender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "species_id")
+    @ToString.Exclude
     private Species species;
 
-    //El método de diagnóstico será específico para cada animal
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
+    @ToString.Exclude
+    private PetOwner owner;
+
+    //The diagnostic method will be specific to each species
     public abstract String getGeneralCheckupGuide();
-
-
-
 }
