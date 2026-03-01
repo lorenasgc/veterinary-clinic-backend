@@ -1,7 +1,9 @@
 package io.github.lorenasgc.vet.controller;
 
 import io.github.lorenasgc.vet.dto.DiagnosisDTO;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +17,13 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/diagnoses")
 @RequiredArgsConstructor
+@Validated
 public class DiagnosisController {
 
     private final PetService petService;
 
     @GetMapping("/species/{speciesName}")
-    public ResponseEntity<Set<DiagnosisDTO>> getDiagnosesBySpecies(@PathVariable String speciesName) {
-        Set<DiagnosisDTO> diagnoses = petService.getPossibleDiagnosesForSpecies(speciesName);
-        return diagnoses.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(diagnoses);
+    public Set<DiagnosisDTO> getDiagnosesBySpecies(@PathVariable @NotBlank String speciesName) {
+        return petService.getPossibleDiagnosesForSpecies(speciesName);
     }
 }
