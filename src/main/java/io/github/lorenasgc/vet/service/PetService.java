@@ -6,6 +6,7 @@ import io.github.lorenasgc.vet.exception.ResourceNotFoundException;
 import io.github.lorenasgc.vet.model.Species;
 import io.github.lorenasgc.vet.repository.PetRepository;
 import io.github.lorenasgc.vet.repository.SpeciesRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +16,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PetService {
 
-    @Autowired
-    private SpeciesRepository speciesRepository;
-
-    @Autowired
-    private PetRepository petRepository;
+    private final SpeciesRepository speciesRepository;
+    private final PetRepository petRepository;
 
     @Transactional(readOnly = true)
     public Set<DiagnosisDTO> getPossibleDiagnosesForSpecies(String speciesName) {
