@@ -30,6 +30,8 @@ public class PetOwner {
 
     private String phone;
 
+    private String address;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Pet> pets = new HashSet<>();
 
