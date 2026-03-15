@@ -3,6 +3,7 @@ package io.github.lorenasgc.vet.auth;
 import io.github.lorenasgc.vet.auth.dto.AuthenticationRequest;
 import io.github.lorenasgc.vet.auth.dto.AuthenticationResponse;
 import io.github.lorenasgc.vet.auth.dto.RegisterRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +18,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@Valid @RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 }

@@ -3,8 +3,10 @@ package io.github.lorenasgc.vet.exception;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,12 +22,21 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolation(ConstraintViolationException ex) {
-        log.warn("Bad Request: {}", ex.getMessage());
-        Map<String, String> errorBody = Map.of(
-                "error", "Bad Request",
-                "message", ex.getMessage()
+    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
+        log.warn("Validation failed for path/query parameters: {}", ex.getMessage());
+
+        Map<String, String> fieldErrors = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation -> {
+            String propertyPath = violation.getPropertyPath().toString();
+            String fieldName = propertyPath.substring(propertyPath.lastIndexOf('.') + 1);
+            fieldErrors.put(fieldName, violation.getMessage());
+        });
+
+        Map<String, Object> errorBody = Map.of(
+                "error", "Parameter Validation Failed",
+                "fields", fieldErrors
         );
+
         return ResponseEntity.badRequest().body(errorBody);
     }
 
@@ -67,6 +78,37 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody);
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        log.warn("Data integrity violation: {}", ex.getMessage());
+        Map<String, String> errorBody = Map.of(
+                "error", "Conflict",
+                "message", "Data integrity violation. A record with this unique information already exists."
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorBody);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        log.warn("Malformed JSON request: {}", ex.getMessage());
+        Map<String, String> errorBody = Map.of(
+                "error", "Bad Request",
+                "message", "Malformed JSON request. Please check your syntax."
+        );
+        return ResponseEntity.badRequest().body(errorBody);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        log.warn("Illegal argument: {}", ex.getMessage());
+
+        Map<String, String> errorBody = Map.of(
+                "error", "Bad Request",
+                "message", ex.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorBody);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {

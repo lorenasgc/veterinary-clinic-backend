@@ -23,7 +23,9 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-
+        if (repository.existsByEmail(request.email())) {
+            throw new IllegalArgumentException("Email address already exists.");
+        }
         var user = User.builder()
                 .firstName(request.firstName())
                 .lastName(request.lastName())
