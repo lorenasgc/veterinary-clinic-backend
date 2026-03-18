@@ -1,8 +1,7 @@
 package io.github.lorenasgc.vet.controller;
 
-import io.github.lorenasgc.vet.dto.DiagnosisDTO;
+import io.github.lorenasgc.vet.dto.response.DiagnosisDTO;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

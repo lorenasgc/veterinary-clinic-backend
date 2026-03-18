@@ -1,6 +1,6 @@
 package io.github.lorenasgc.vet.controller;
 
-import io.github.lorenasgc.vet.dto.PetDTO;
+import io.github.lorenasgc.vet.dto.response.PetDTO;
 import io.github.lorenasgc.vet.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package io.github.lorenasgc.vet.dto;
+package io.github.lorenasgc.vet.dto.response;
 
 import java.util.Set;
 
