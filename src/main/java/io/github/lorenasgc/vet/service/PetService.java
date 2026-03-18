@@ -1,7 +1,7 @@
 package io.github.lorenasgc.vet.service;
 
-import io.github.lorenasgc.vet.dto.DiagnosisDTO;
-import io.github.lorenasgc.vet.dto.PetDTO;
+import io.github.lorenasgc.vet.dto.response.DiagnosisDTO;
+import io.github.lorenasgc.vet.dto.response.PetDTO;
 import io.github.lorenasgc.vet.exception.ResourceNotFoundException;
 import io.github.lorenasgc.vet.mapper.DiagnosisMapper;
 import io.github.lorenasgc.vet.mapper.PetMapper;

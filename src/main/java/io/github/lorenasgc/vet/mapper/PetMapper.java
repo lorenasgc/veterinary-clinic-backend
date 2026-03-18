@@ -1,6 +1,6 @@
 package io.github.lorenasgc.vet.mapper;
 
-import io.github.lorenasgc.vet.dto.PetDTO;
+import io.github.lorenasgc.vet.dto.response.PetDTO;
 import io.github.lorenasgc.vet.model.Pet;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
