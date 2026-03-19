@@ -72,4 +72,21 @@ public class UserController {
 
         return ResponseEntity.ok(userService.updateUser(id, request));
     }
+
+    @Operation(
+            summary = "Soft delete a user",
+            description = "Deactivates a user account by setting their status to inactive instead of permanently deleting their record from the database. This preserves historical medical records linked to this user."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "User successfully deactivated", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied (e.g., negative number)", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Missing or invalid JWT token", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found with the specified ID", content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deactivateUser(
+            @PathVariable @Min(value = 1, message = "ID must be greater than or equal to 1") Long id) {
+        userService.deactivateUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }
