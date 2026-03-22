@@ -2,6 +2,8 @@
 
 A robust and scalable REST API designed for the comprehensive management (ERP) of a veterinary clinic. This project demonstrates advanced skills in software architecture, security, data modeling, and the use of the latest features in Java and Spring Boot.
 
+![Swagger UI interface with the API endpoints](./docs/Swagger.png)
+
 ## 🚀 Technologies and Tools
 * **Language:** Java 17 (Records, functional paradigm using Streams API and Optionals).
 * **Framework:** Spring Boot 3.5.10 (Spring Data JPA, Spring Web).
@@ -26,6 +28,10 @@ A robust and scalable REST API designed for the comprehensive management (ERP) o
     *   **Developer Agility:** As a solo developer on this project, this approach maximizes development speed and allows for rapid iteration without the overhead of maintaining a separate design file.
     *   **Alternative Considered (Design-First):** In a professional team environment, especially one with separate frontend and backend teams, I would advocate for the Design-First approach. Defining an OpenAPI contract upfront (in a YAML or JSON file) serves as a binding agreement, enables parallel development, and ensures API consistency across a larger microservices ecosystem. However, for the context of this solo project, the Code-First approach was deemed more pragmatic and efficient.
 
+## 📊 Database Schema
+
+![Database diagram](./docs/database_diagram.png)
+
 ## 🛠️ Environment Setup
 1. Clone the repository.
 2. Ensure Docker is installed on your machine.
@@ -35,3 +41,4 @@ A robust and scalable REST API designed for the comprehensive management (ERP) o
 
 ---
 Developed with ❤️ by [Lorena SGC](https://github.com/lorenasgc)
+🤝 Let's connect! Find me on [LinkedIn](https://www.linkedin.com/in/lorenasheilagonzalez/)
