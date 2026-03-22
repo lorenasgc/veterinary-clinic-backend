@@ -4,6 +4,7 @@ import io.github.lorenasgc.vet.dto.request.UpdateUserRequest;
 import io.github.lorenasgc.vet.dto.response.UserResponse;
 import io.github.lorenasgc.vet.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +33,8 @@ public class UserController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of users retrieved successfully"),
-            @ApiResponse(responseCode = "204", description = "No users found in the database", content = @Content)
+            @ApiResponse(responseCode = "204", description = "No users found in the database", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden: Missing or invalid JWT token", content = @Content)
     })
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
@@ -50,9 +53,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found with the specified ID", content = @Content)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(
-            @PathVariable @Min(value = 1, message = "ID must be greater than or equal to 1") Long id) {
-        return ResponseEntity.ok(userService.findUserById(id));
+    public UserResponse getUserById(
+            @Parameter(description = "User ID", required = true, example = "1") @PathVariable @Min(value = 1, message = "ID must be greater than or equal to 1") Long id) {
+        return userService.findUserById(id);
     }
 
     @Operation(
@@ -66,11 +69,11 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found with the specified ID", content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(
-            @PathVariable @Min(value = 1, message = "ID must be greater than or equal to 1") Long id,
+    public UserResponse updateUser(
+            @Parameter(description = "User ID", required = true, example = "1") @PathVariable @Min(value = 1, message = "ID must be greater than or equal to 1") Long id,
             @Valid @RequestBody UpdateUserRequest request) {
 
-        return ResponseEntity.ok(userService.updateUser(id, request));
+        return userService.updateUser(id, request);
     }
 
     @Operation(
@@ -84,9 +87,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found with the specified ID", content = @Content)
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deactivateUser(
-            @PathVariable @Min(value = 1, message = "ID must be greater than or equal to 1") Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deactivateUser(
+            @Parameter(description = "User ID", required = true, example = "1") @PathVariable @Min(value = 1, message = "ID must be greater than or equal to 1") Long id) {
         userService.deactivateUser(id);
-        return ResponseEntity.noContent().build();
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "Veterinary Clinic API",
                 version = "1.0",
-                description = "RESTful API for Veterinary Clinic Management"
+                description = "RESTful API for Veterinary Clinic Management including clients, pets, appointments, and medical records."
         ),
         security = @SecurityRequirement(name = "bearerAuth")
 )
